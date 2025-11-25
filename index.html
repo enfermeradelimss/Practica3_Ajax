@@ -1,86 +1,96 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Pagina mostrar lista de pacientes</title>
+  <meta charset="UTF-8">
+  <title>Página mostrar lista de pacientes</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+    #error-ajax {
+      color: red;
+      visibility: hidden;
+    }
+  </style>
 </head>
 <body>
-<header>
-<div class="container">
-<h1 class="titulo">Mostrar listado</h1>
-</div>
-</header>
-<main>
-<section class="container">
-<h2>Mis pacientes</h2>
+  <header>
+    <div class="container">
+      <h1 class="titulo">Mostrar listado</h1>
+    </div>
+  </header>
 
-<table>
-<thead>
-<tr>
-<th>Nombre</th>
-<th>Peso(kg)</th>
-<th>Altura (m)</th>
-<th>Gordura Corporal (%)</th>
-<th>IMC</th>
-</tr>
-</thead>
-<tbody id="tabla-pacientes">
-</tbody>
-</table>
-<span id="error-ajax">Error al buscar los pacientes</span>
-<button id="buscar-paciente" class="boton bto-principal">Buscar Pacientes
-</button>
-</section>
-</main>
-<script>
+  <main>
+    <section class="container">
+      <h2>Mis pacientes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Peso (kg)</th>
+            <th>Altura (m)</th>
+            <th>Gordura Corporal (%)</th>
+            <th>IMC</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-pacientes"></tbody>
+      </table>
+      <span id="error-ajax">Error al buscar los pacientes</span>
+      <br><br>
+      <button id="buscar-paciente" class="boton bto-principal">Buscar Pacientes</button>
+    </section>
+  </main>
 
-function adicionarPacienteEnLaTabla (paciente){
-var pacienteTr = construirTr (paciente);
-var tabla = document. querySelector("#tabla-pacientes");
-tabla. appendchild(pacienteTr);
-};
+  <script>
+    function construirTd(dato, clase) {
+      const td = document.createElement("td");
+      td.classList.add(clase);
+      td.textContent = dato;
+      return td;
+    }
 
-function construirTr(paciente) {
-var pacienteTr = document. createElement("tr");
-pacienteTr. classList. add("paciente");
-pacienteTr. appendchild(construirTd(paciente. nombre, "info-nombre"));
-pacienteTr. appendchild(construirTd(paciente.peso, "info-peso"));
-pacienteTr. appendchild(construirTd(paciente. altura, "info-altura"));
-pacienteTr. appendchild(construirTd(paciente. gordura, "info-gordura"));
-pacienteTr. appendchild(construirTd(paciente. imc, "info-imc"));
-return pacienteTr;
+    function construirTr(paciente) {
+      const pacienteTr = document.createElement("tr");
+      pacienteTr.classList.add("paciente");
+      pacienteTr.appendChild(construirTd(paciente.nombre, "info-nombre"));
+      pacienteTr.appendChild(construirTd(paciente.peso, "info-peso"));
+      pacienteTr.appendChild(construirTd(paciente.altura, "info-altura"));
+      pacienteTr.appendChild(construirTd(paciente.gordura, "info-gordura"));
+      pacienteTr.appendChild(construirTd(paciente.imc, "info-imc"));
+      return pacienteTr;
+    }
 
-};
+    function adicionarPacienteEnLaTabla(paciente) {
+      const tabla = document.querySelector("#tabla-pacientes");
+      const pacienteTr = construirTr(paciente);
+      tabla.appendChild(pacienteTr);
+    }
 
-function construirTd(dato, clase) {
-var td = document. createElement("td");
-td. classList. add(clase);
-td. textContent = dato;
-return td;
-}
-var errorAjax = document. querySelector("#error-ajax");
-errorAjax. style. visibility = "hidden";
+    const errorAjax = document.querySelector("#error-ajax");
+    const botonBuscar = document.querySelector("#buscar-paciente");
 
-var botonBuscar = document. querySelector("#buscar-paciente");
-botonBuscar. addEventListener("click", function () {
-var xhr = new XMLHttpRequest;
-xhr. open
-("GET", "https://raw. githubusercontent. com/sandrallara/lista. json/refs/heads/main/pacientes. json");
-xhr. addEventListener("load", function () {
-if(xhr. status == 200){
-var respuesta = xhr. responseText;
-var pacientes = JSON. parse (respuesta);
-pacientes. forEach (function (paciente) {
-adicionarPacienteEnLaTabla (paciente);
-});
-errorAjax. style. visibility = "visible"
+    botonBuscar.addEventListener("click", function () {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://raw.githubusercontent.com/sandrallara/lista.json/refs/heads/main/pacientes.json");
 
-}else{
-}
+      xhr.addEventListener("load", function () {
+        if (xhr.status === 200) {
+          const pacientes = JSON.parse(xhr.responseText);
+          pacientes.forEach(adicionarPacienteEnLaTabla);
+          errorAjax.style.visibility = "hidden";
+        } else {
+          errorAjax.style.visibility = "visible";
+        }
+      });
 
-});
-xhr. send();
-});
-</script>
+      xhr.addEventListener("error", function () {
+        errorAjax.style.visibility = "visible";
+      });
+
+      xhr.send();
+    });
+  </script>
 </body>
 </html>
