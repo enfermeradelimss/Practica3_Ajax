@@ -1,9 +1,9 @@
 [
   {
     "nombre": "Homero",
-    "peso": 1000,
-    "altura": 1.50,
-    "gordura": 100,
+    "peso": "Error",
+    "altura": "Error",
+    "gordura": "Error",
     "imc": "Error"
   },
   {
