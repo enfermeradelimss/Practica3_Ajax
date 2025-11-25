@@ -1,10 +1,10 @@
 [
   {
-    "nombre": "Jéssica",
-    "peso": 47,
-    "altura": 1.54,
-    "gordura": 17,
-    "imc": 19.82
+    "nombre": "Homero",
+    "peso": 1000,
+    "altura": 1.50,
+    "gordura": 100,
+    "imc": "Error"
   },
   {
     "nombre": "Fabio",

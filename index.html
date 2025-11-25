@@ -73,7 +73,7 @@
 
     botonBuscar.addEventListener("click", function () {
       const xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://raw.githubusercontent.com/sandrallara/lista.json/refs/heads/main/pacientes.json");
+      xhr.open("GET", "https://raw.githubusercontent.com/enfermeradelimss/Practica3_Ajax/main/pacientes.json");
 
       xhr.addEventListener("load", function () {
         if (xhr.status === 200) {
